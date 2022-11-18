@@ -24,7 +24,7 @@
 
 ## 5. axiostodo
 
-- 실제 nodejs로 구현한 백엔드를 가지고 Http message를 통한 data를 활용한다.
+- 실제 nodejs로 구현한 백엔드를 가지고 Http message를 통한 data를 활용합니다.
 - 로그인되지 않은 사용자 todo페이지 접근 불가
 - react-toastify 오픈소스 라이브러리를 활용하여 toast message를 띄웁니다.
 
