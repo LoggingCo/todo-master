@@ -6,7 +6,7 @@
 - react-router-dom, compoentns, styled-compoennts, styled-reset
 
 ## 2. hooktodo
-- hoos 함수를 활용하여 실제 기능이 작동되는 todolist를 제작합니다
+- hooks 함수를 활용하여 실제 기능이 작동되는 todolist를 제작합니다
 - custom hook, useInupt, useInputs 코드를 작성합니다.
 
 ## 3. reducertodo
@@ -30,6 +30,7 @@
 ## 7. recoiltodo
 - 6을 통해 배포된 json-server를 활용합니다.
 - recoil과 react-qurey를 사용하여 todo-list를 제작합니다.
+- storybook을 활용한 공용 컴포넌트 UI TEST를 사용합니다.
 
 ## 8. tddtodo
 - 랜더링 테스트와 스냅샷 테스트와 같은 유닛 테스트를 작성합니다.
