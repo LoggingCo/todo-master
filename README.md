@@ -20,6 +20,7 @@
 ## 5. axiostodo
 - 실제 nodejs로 구현한 백엔드를 가지고 Http message를 통한 data를 활용한다.
 - 로그인되지 않은 사용자 todo페이지 접근 불가
+- react-toastify 오픈소스 라이브러리를 활용하여 toast message를 띄웁니다.
 
 ## 6. sagatodo
 - msw와 mock-data를 활용하여 mockingApi를 만들고 redux의 middle ware인 redux-saga를 사용합니다.
