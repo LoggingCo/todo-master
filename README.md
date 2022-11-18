@@ -11,6 +11,7 @@
 
 ## 3. reducertodo
 - hooktodo의 상태를 useReducer와 useContext를 활용하여 전역으로 관리합니다.
+- flux 패턴에 대한 이해도를 상승시킵니다.
 
 ## 4. reduxtodo
 - hooktodo의 상태를 react-redux를 활용하여 전역으로 관리합니다.
