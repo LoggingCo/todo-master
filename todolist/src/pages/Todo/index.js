@@ -3,11 +3,24 @@ import { Button } from 'components/Button/Style';
 import { flexAlignCenter, flexCenter } from 'styles/common';
 import TodoFormModal from './compoents/Modal/Form/Form';
 import TodoList from './compoents/List/List';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TodoPage() {
+  const onAddTodo = new Promise((resolve) => setTimeout(() => resolve('todo'), 3000));
+
+  const showToastMessage = (e) => {
+    e.preventDefault();
+    toast.promise(onAddTodo, {
+      pending: 'TODO LOADING',
+      success: 'TODO SUCCESS',
+      error: 'TODO ERROR',
+    });
+  };
+
   return (
     <>
-      <TodoFormModal />
+      <TodoFormModal showToastMessage={showToastMessage} />
       <S.Wrapper>
         <S.Container>
           <S.Title>List</S.Title>
@@ -20,6 +33,7 @@ function TodoPage() {
             </Button>
           </S.ButtonBox>
         </S.Container>
+        <ToastContainer autoClose={2000} theme="colored" />
       </S.Wrapper>
     </>
   );

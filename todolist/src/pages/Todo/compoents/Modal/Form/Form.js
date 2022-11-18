@@ -1,13 +1,13 @@
 import { flexAlignCenter, flexCenter, ModalBackground } from 'styles/common';
 import styled from 'styled-components';
 
-function TodoFormModal() {
+function TodoFormModal({ showToastMessage }) {
   return (
     <S.Wrapper>
-      <S.Form>
+      <S.Form onSubmit={showToastMessage}>
         <S.Title>
           <span>ADD TODO LIST</span>
-          <button>X</button>
+          <button type="button">X</button>
         </S.Title>
         <S.Content>
           <input placeholder="제목을 입력해주세요" />
