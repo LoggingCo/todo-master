@@ -52,3 +52,12 @@
 - 랜더링 테스트와 스냅샷 테스트와 같은 유닛 테스트를 작성합니다.
 - redux와 msw를 활용하여 단위 테스트를 작성 후 TDD 방식으로 todolist를 완성합니다.
 - cypress를 활용한 E2E 테스트를 진행합니다.
+
+## 10. typetodo
+
+- typescript를 활용하여 todolist를 이용합니다.
+- DI(의존성부여), 상속, 추상화 같은 oop 개념을 습득합니다.
+- typesciprt의 문서화 기능을 강조합니다.
+
+
+
