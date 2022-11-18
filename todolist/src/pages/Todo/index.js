@@ -1,29 +1,35 @@
 import styled from 'styled-components';
 import { Button } from 'components/Button/Style';
 import { flexAlignCenter, flexCenter } from 'styles/common';
+import TodoFormModal from './compoents/Modal/Form/Form';
+import TodoList from './compoents/List/List';
 
 function TodoPage() {
   return (
-    <S.Wrapper>
-      <S.Container>
-        <S.Title>List</S.Title>
-        <S.Content></S.Content>
-        <S.ButtonBox>
-          <Button variant="primary" size="full">
-            추가
-          </Button>
-        </S.ButtonBox>
-      </S.Container>
-    </S.Wrapper>
+    <>
+      <TodoFormModal />
+      <S.Wrapper>
+        <S.Container>
+          <S.Title>List</S.Title>
+          <S.Content>
+            <TodoList />
+          </S.Content>
+          <S.ButtonBox>
+            <Button variant="primary" size="full">
+              추가
+            </Button>
+          </S.ButtonBox>
+        </S.Container>
+      </S.Wrapper>
+    </>
   );
 }
 export default TodoPage;
 
 const Wrapper = styled.div`
-  width: 100%;
   height: calc(100vh - 60px);
   padding-bottom: 60px;
-  ${flexCenter}
+  ${flexCenter};
 `;
 
 const Container = styled.div`
