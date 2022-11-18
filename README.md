@@ -55,7 +55,7 @@
 
 ## 10. typetodo
 
-- typescript를 활용하여 todolist를 이용합니다.
+- typescript를 활용하여 todolist를 완성합니다.
 - DI(의존성부여), 상속, 추상화 같은 oop 개념을 습득합니다.
 - typesciprt의 문서화 기능을 강조합니다.
 
