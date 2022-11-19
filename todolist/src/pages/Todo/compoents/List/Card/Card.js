@@ -69,6 +69,14 @@ const StateBox = styled.div`
 
 const Content = styled.div`
   padding: 16px;
+
+  & textarea {
+    width: 100%;
+    height: 100%;
+    border: 1px dotted #999;
+    outline: none;
+    resize: none;
+  }
 `;
 
 const S = {
