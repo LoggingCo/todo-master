@@ -2,6 +2,10 @@
 
 #### 강의 준비를 위해 제작한 todo_master입니다.
 
+## 0. todoserver
+- todolist의 nodejs express, mysql을 활용한 bacnk-end
+- todolist의 json-server를 활용한 back-end
+
 ## 1. todolist
 
 - 모든 todolist의 보일러코드를 담당합니다
