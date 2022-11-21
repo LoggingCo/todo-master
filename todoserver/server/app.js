@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
   );
   app.use(
     cors({
-      origin: '*',
+      origin: true,
       credentials: true,
     }),
   );
@@ -69,8 +69,9 @@ app.use(
     resave: false,
     secret: process.env.SESSION_SECRET_KEY,
     cookie: {
+      sameSite: 'none',
       httpOnly: true,
-      secure: false,
+      secure: true,
     },
   }),
 );

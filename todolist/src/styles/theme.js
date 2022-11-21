@@ -13,9 +13,9 @@ const palette = {
   black: '#000000',
   fontColor: '#ffffff',
   gray: {
-    100: '#e9e9e9',
-    200: '#d9d9d9',
-    300: '#656565',
+    100: '#f5f5f5',
+    200: '#e0e0e0',
+    300: '#d9d9d9',
   },
 };
 
