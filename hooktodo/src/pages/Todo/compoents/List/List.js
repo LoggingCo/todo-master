@@ -11,11 +11,11 @@ function TodoList({ todoList, setTodoList }) {
   };
 
   // update todo
-  const onUpdateTodo = (id, content, flag) => {
+  const onUpdateTodo = (id, content, state) => {
     const newTodoList = [...todoList];
     const todo = newTodoList.find((todo) => todo.id === id);
     todo.content = content;
-    todo.flag = flag;
+    todo.state = state;
     setTodoList(newTodoList);
   };
 

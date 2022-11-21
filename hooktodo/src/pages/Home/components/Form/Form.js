@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { flexCenter } from 'styles/common';
 import Button from 'components/Button/Button';
 import useInputs from 'hooks/useInputs';
+import { useEffect, useState } from 'react';
 
 function LoginForm() {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
+
   const [{ email, password }, onChangeForm] = useInputs({
     email: '',
     password: '',
@@ -14,9 +17,16 @@ function LoginForm() {
   const onLoginSubmit = (e) => {
     e.preventDefault();
     if (email === 'test' && password === 'test') {
-      navigate('/todo');
+      return navigate('/todo');
     }
+    setError('아이디 또는 비밀번호가 일치하지 않습니다.');
   };
+
+  useEffect(() => {
+    if (email && password) {
+      setError('');
+    }
+  }, [email, password]);
 
   return (
     <S.Form onSubmit={onLoginSubmit}>
@@ -25,9 +35,10 @@ function LoginForm() {
         <span>이메일</span>
       </S.InputBox>
       <S.InputBox>
-        <input placeholder="password" name={'password'} onChange={onChangeForm} />
+        <input type={'password'} placeholder="password" name={'password'} onChange={onChangeForm} />
         <span>암호</span>
       </S.InputBox>
+      {error && <S.Error>아이디 혹은 비밀번호가 일치하지 않습니다</S.Error>}
       <Button variant="primary" size="full">
         로그인
       </Button>
@@ -70,7 +81,14 @@ const InputBox = styled.div`
   }
 `;
 
+const Error = styled.p`
+  color: ${({ theme }) => theme.palette.error};
+  font-size: ${({ theme }) => theme.fontSize.small};
+  margin: 8px 0;
+`;
+
 const S = {
   Form,
   InputBox,
+  Error,
 };

@@ -18,17 +18,21 @@ function TodoCard({ todo, onDeleteTodo, onUpdateTodo }) {
       alert('변경된 내용이 없습니다.');
       return setEdit(false);
     }
-    onUpdateTodo(todo.id, content, todo.flag);
+    onUpdateTodo(todo.id, content, todo.state);
     setEdit(false);
   };
 
+  const onUpdateStateHandler = () => {
+    onUpdateTodo(todo.id, todo.content, !todo.state);
+  };
+
   return (
-    <S.Wrapper>
+    <S.Wrapper state={todo.state}>
       <S.Header>
-        <S.StateBox state={todo.state}>
+        <S.StateBox state={todo.state} onClick={onUpdateStateHandler}>
           <FontAwesomeIcon icon={faCheck} />
         </S.StateBox>
-        <S.Title>
+        <S.Title state={todo.state}>
           {todo.title}
           <div>
             <FontAwesomeIcon icon={faPen} onClick={edit ? onUpdateTodoHandler : onSetEdit} />
@@ -36,7 +40,7 @@ function TodoCard({ todo, onDeleteTodo, onUpdateTodo }) {
           </div>
         </S.Title>
       </S.Header>
-      <S.Content>
+      <S.Content state={todo.state}>
         {edit ? <textarea value={content} onChange={onChangeContent}></textarea> : todo.content}
       </S.Content>
     </S.Wrapper>
@@ -50,6 +54,8 @@ const Wrapper = styled.li`
   border: 1px solid #999;
   margin: 16px 0;
   border-radius: 8px;
+  background-color: ${({ state, theme }) =>
+    state ? theme.palette.gray[100] : theme.palette.white};
 `;
 
 const Header = styled.div`
@@ -64,6 +70,7 @@ const Title = styled.h1`
   display: flex;
   justify-content: space-between;
   font-weight: ${({ theme }) => theme.fontWeight.bold};
+  text-decoration: ${({ state }) => (state ? 'line-through' : 'none')};
 
   & svg {
     cursor: pointer;
@@ -89,6 +96,7 @@ const StateBox = styled.div`
 
 const Content = styled.div`
   padding: 16px;
+  text-decoration: ${({ state }) => (state ? 'line-through' : 'none')};
 
   & textarea {
     width: 100%;
