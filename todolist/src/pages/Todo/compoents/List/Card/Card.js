@@ -5,12 +5,12 @@ import { faCheck, faBan, faPen } from '@fortawesome/free-solid-svg-icons';
 
 function TodoCard({ todo }) {
   return (
-    <S.Wrapper>
+    <S.Wrapper state={todo.state}>
       <S.Header>
         <S.StateBox state={todo.state}>
           <FontAwesomeIcon icon={faCheck} />
         </S.StateBox>
-        <S.Title>
+        <S.Title state={todo.state}>
           {todo.title}
           <div>
             <FontAwesomeIcon icon={faPen} />
@@ -18,7 +18,7 @@ function TodoCard({ todo }) {
           </div>
         </S.Title>
       </S.Header>
-      <S.Content>{todo.content}</S.Content>
+      <S.Content state={todo.state}>{todo.content}</S.Content>
     </S.Wrapper>
   );
 }
@@ -30,6 +30,8 @@ const Wrapper = styled.li`
   border: 1px solid #999;
   margin: 16px 0;
   border-radius: 8px;
+  background-color: ${({ state, theme }) =>
+    state ? theme.palette.gray[100] : theme.palette.white};
 `;
 
 const Header = styled.div`
@@ -44,6 +46,7 @@ const Title = styled.h1`
   display: flex;
   justify-content: space-between;
   font-weight: ${({ theme }) => theme.fontWeight.bold};
+  text-decoration: ${({ state }) => (state ? 'line-through' : 'none')};
 
   & svg {
     cursor: pointer;
@@ -69,6 +72,7 @@ const StateBox = styled.div`
 
 const Content = styled.div`
   padding: 16px;
+  text-decoration: ${({ state }) => (state ? 'line-through' : 'none')};
 
   & textarea {
     width: 100%;
