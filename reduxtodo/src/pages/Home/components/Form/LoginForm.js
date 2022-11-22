@@ -4,30 +4,38 @@ import { flexCenter } from 'styles/common';
 import Button from 'components/Button/Button';
 import useInputs from 'hooks/useInputs';
 import { useEffect, useState } from 'react';
+import useHomeRegExp from 'pages/Home/hooks/useHomeRegExp';
 
 function LoginForm() {
-  const navigate = useNavigate();
-  const [error, setError] = useState('');
+  // util
 
+  const navigate = useNavigate();
+  // state
+  const [error, setError] = useState('');
   const [{ email, password }, onChangeForm] = useInputs({
     email: '',
     password: '',
   });
 
+  const disabled = useHomeRegExp(email, password);
+
+  // login submit
   const onLoginSubmit = (e) => {
     e.preventDefault();
-    if (email === 'test' && password === 'test') {
+    if (email === 'test@test.com' && password === 'testtest') {
       return navigate('/todo');
     }
     setError('아이디 또는 비밀번호가 일치하지 않습니다.');
   };
 
+  // error reset
   useEffect(() => {
     if (email && password) {
       setError('');
     }
   }, [email, password]);
 
+  // render
   return (
     <S.Form onSubmit={onLoginSubmit}>
       <S.InputBox>
@@ -39,7 +47,7 @@ function LoginForm() {
         <span>암호</span>
       </S.InputBox>
       {error && <S.Error>아이디 혹은 비밀번호가 일치하지 않습니다</S.Error>}
-      <Button variant="primary" size="full">
+      <Button variant="primary" size="full" disabled={disabled}>
         로그인
       </Button>
     </S.Form>
