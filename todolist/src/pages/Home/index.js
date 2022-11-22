@@ -21,7 +21,7 @@ function HomePage() {
           SIGN
         </S.SignUpSelector>
       </S.Header>
-      {form === 'login' ? <LoginForm /> : <SignUpForm />}
+      {form === 'login' ? <LoginForm /> : <SignUpForm form={form} />}
     </S.Wrapper>
   );
 }
