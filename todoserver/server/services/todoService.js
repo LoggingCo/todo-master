@@ -4,8 +4,11 @@ import { FailureData, SuccessData } from '../util/resultData.js';
 
 export class TodoService {
   static async create(req, res, next) {
+    console.log(req.body);
+
     try {
       const todo = await Todo.create({
+        title: req.body.title,
         content: req.body.content,
       });
       res.status(200).json(SuccessData(todo));
@@ -13,6 +16,7 @@ export class TodoService {
       HandlerError(err, next);
     }
   }
+
   static async read(req, res, next) {
     try {
       const todo = await Todo.findAll();
@@ -21,6 +25,7 @@ export class TodoService {
       HandlerError(err, next);
     }
   }
+
   static async update(req, res, next) {
     try {
       const todo = await Todo.findOne({
@@ -34,7 +39,7 @@ export class TodoService {
       await Todo.update(
         {
           content: req.body.content,
-          flag: req.body.flag,
+          state: req.body.state,
         },
         {
           where: {
@@ -43,11 +48,9 @@ export class TodoService {
         },
       );
 
-      const updateTodo = {
-        id: parseInt(req.params.todoId, 10),
-        content: req.body.content,
-        flag: req.body.flag,
-      };
+      const updateTodo = await Todo.findOne({
+        where: { id: parseInt(req.params.todoId, 10) },
+      });
 
       res.status(200).json(SuccessData(updateTodo));
     } catch (err) {

@@ -1,14 +1,12 @@
-import { RefreshAuth } from '../util/refreshAuth.js';
 import passport from 'passport';
 import { FailureData } from '../util/resultData.js';
 
 export const jwtAuth = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user) => {
-    const refreshAuth = RefreshAuth(req.cookies.refresh, user);
     // jwt x
     if (err || !user) {
       // refresh o jwt x
-      if (refreshAuth) {
+      if (req.cookies.refresh) {
         res.status(403).json(FailureData('인증토큰을 재발급 받으세요'));
       } else {
         // refresh x jwt x
@@ -18,9 +16,7 @@ export const jwtAuth = (req, res, next) => {
 
     // jwt o refresh o
     if (req.cookies.refresh) {
-      if (refreshAuth) {
-        return next();
-      }
+      return next();
     }
 
     // jwt o refresh x

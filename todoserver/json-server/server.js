@@ -1,20 +1,22 @@
 const jsonServer = require('json-server');
-const path = require('path');
-
+const auth = require('json-server-auth');
 const server = jsonServer.create();
-const router = jsonServer.router(path.resolve(__dirname + '/data.json'));
-const middlewares = jsonServer.defaults({
-  static: path.resolve(__dirname + './build'),
-});
+const router = jsonServer.router('data.json');
 
-const port = process.env.PORT || 4000;
+const middlewares = jsonServer.defaults();
+server.use(middlewares);
 
 server.db = router.db;
 
-server.use(middlewares);
-server.use(jsonServer.bodyParser);
+const rules = auth.rewriter({
+  users: 660,
+  todo: 660,
+});
+
+server.use(rules);
+server.use(auth);
 server.use(router);
 
-server.listen(port, () => {
-  console.log(port, 'JSON Server is running');
+server.listen(4000, () => {
+  console.log('JSON Server is running');
 });
