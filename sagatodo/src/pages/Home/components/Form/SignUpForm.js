@@ -1,3 +1,5 @@
+import { ErrorHandle } from 'apis/@core';
+import AuthApi from 'apis/authApi';
 import Button from 'components/Button/Button';
 import useInputs from 'hooks/useInputs';
 import useHomeRegExp from 'pages/Home/hooks/useHomeRegExp';
@@ -18,12 +20,24 @@ function SignUpForm({ setForm }) {
   const disabled = useHomeRegExp(email, password);
 
   // onSignUpSumit
-  const onSignUpSumit = (e) => {
+  const onSignUpSumit = async (e) => {
     e.preventDefault();
     if (password !== passwordConfirm) {
       return setConfirm(false);
     }
-    setForm('login');
+
+    // async await
+    try {
+      const res = await AuthApi.signup({ email, password });
+      if (res.status === 200) {
+        if (!alert('회원가입이 완료되었습니다.')) {
+          setForm('login');
+        }
+      }
+    } catch (error) {
+      const err = ErrorHandle(error);
+      alert(err);
+    }
   };
 
   // confirm check
@@ -42,7 +56,13 @@ function SignUpForm({ setForm }) {
         <span>이메일</span>
       </S.InputBox>
       <S.InputBox>
-        <input placeholder="password" type={'password'} name={'password'} onChange={onChangeForm} />
+        <input
+          placeholder="password"
+          type={'password'}
+          name={'password'}
+          autoComplete="off"
+          onChange={onChangeForm}
+        />
         <span>암호</span>
       </S.InputBox>
       <S.InputBox>
@@ -50,6 +70,7 @@ function SignUpForm({ setForm }) {
           placeholder="password confirm"
           type={'password'}
           name={'passwordConfirm'}
+          autoComplete="off"
           onChange={onChangeForm}
         />
         <span>암호 확인</span>

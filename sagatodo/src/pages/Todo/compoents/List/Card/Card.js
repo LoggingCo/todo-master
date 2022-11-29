@@ -15,20 +15,21 @@ function TodoCard({ todo, onDeleteTodo, onUpdateTodo }) {
 
   const onUpdateTodoHandler = () => {
     if (content === todo.content) {
+      alert('변경된 내용이 없습니다.');
       return setEdit(false);
     }
     onUpdateTodo(todo.id, content, todo.state);
     setEdit(false);
   };
 
-  const onUdpateStateHandler = () => {
+  const onUpdateStateHandler = () => {
     onUpdateTodo(todo.id, todo.content, !todo.state);
   };
 
   return (
     <S.Wrapper state={todo.state}>
       <S.Header>
-        <S.StateBox state={todo.state} onClick={onUdpateStateHandler}>
+        <S.StateBox state={todo.state} onClick={onUpdateStateHandler}>
           <FontAwesomeIcon icon={faCheck} />
         </S.StateBox>
         <S.Title state={todo.state}>

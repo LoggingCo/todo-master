@@ -5,6 +5,9 @@ import Button from 'components/Button/Button';
 import useInputs from 'hooks/useInputs';
 import { useEffect, useState } from 'react';
 import useHomeRegExp from 'pages/Home/hooks/useHomeRegExp';
+import AuthApi from 'apis/authApi';
+import { ErrorHandle } from 'apis/@core';
+import TokenRepository from 'repository/TokenRepository';
 
 function LoginForm() {
   // util
@@ -22,10 +25,21 @@ function LoginForm() {
   // login submit
   const onLoginSubmit = (e) => {
     e.preventDefault();
-    if (email === 'test@test.com' && password === 'testtest') {
-      return navigate('/todo');
-    }
-    setError('아이디 또는 비밀번호가 일치하지 않습니다.');
+
+    // promise returen
+    AuthApi.login({ email, password })
+      .then((res) => {
+        if (res.status === 200) {
+          TokenRepository.setToken(res.data.token);
+          if (TokenRepository.getToken()) {
+            navigate('/todo');
+          }
+        }
+      })
+      .catch((error) => {
+        const err = ErrorHandle(error);
+        setError(err);
+      });
   };
 
   // error reset
@@ -43,7 +57,13 @@ function LoginForm() {
         <span>이메일</span>
       </S.InputBox>
       <S.InputBox>
-        <input type={'password'} placeholder="password" name={'password'} onChange={onChangeForm} />
+        <input
+          type={'password'}
+          placeholder="password"
+          name={'password'}
+          onChange={onChangeForm}
+          autoComplete="off"
+        />
         <span>암호</span>
       </S.InputBox>
       {error && <S.Error>아이디 혹은 비밀번호가 일치하지 않습니다</S.Error>}

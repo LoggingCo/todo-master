@@ -5,13 +5,13 @@ import TodoFormModal from './compoents/Modal/Form/Form';
 import TodoList from './compoents/List/List';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, ADD_TODO } from 'reducer/todo';
+import { addTodoRequest, readTodoRequest } from 'reducer/todo';
 
 function TodoPage() {
   const [isOpenFormModal, setIsOpenFormModal] = useState(false);
-  const todoList = useSelector((state) => state.todo);
+  const todoList = useSelector((state) => state.todo.todos);
   const dispatch = useDispatch();
 
   const onOpenFormModal = () => {
@@ -22,25 +22,28 @@ function TodoPage() {
     setIsOpenFormModal(false);
   };
 
+  // gettodo
+  useEffect(() => {
+    dispatch(readTodoRequest());
+  }, []);
+
   // addtodo
-  const onAddTodo = (title, content) =>
-    new Promise((reject, resolve) => {
+  const onAddTodo = async (title, content) => {
+    const data = await new Promise((reject, resolve) => {
       if (!title || !content) {
         return resolve();
       }
-      setTimeout(() => {
-        const newTodo = {
-          id: Math.floor(Math.random() * 100000),
-          title,
-          content,
-          state: false,
-        };
-        reject(newTodo);
-      }, 1000);
-    }).then((res) => {
-      dispatch(addTodo(res));
-      onCloseFormModal();
+      const newTodo = {
+        id: Math.floor(Math.random() * 100000),
+        title,
+        content,
+        state: false,
+      };
+      reject(newTodo);
     });
+    dispatch(addTodoRequest(data));
+    onCloseFormModal();
+  };
 
   return (
     <>

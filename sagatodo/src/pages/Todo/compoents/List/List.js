@@ -1,35 +1,35 @@
 import TodoCard from './Card/Card';
 import styled from 'styled-components';
-import { deleteTodo, updateTodo } from 'reducer/todo';
+import TodoApi from 'apis/todoApi';
+import { ErrorHandle } from 'apis/@core';
 import { useDispatch } from 'react-redux';
+import { deleteTodoRequest, updateTodoRequest } from 'reducer/todo';
 
-function TodoList({ todoList }) {
+function TodoList({ todoList, setTodoList }) {
   const dispatch = useDispatch();
 
-  // delete todo
+  // deletetodo
   const onDeleteTodo = (id) => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      dispatch(deleteTodo(id));
-    }
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    dispatch(deleteTodoRequest(id));
   };
 
   // update todo
   const onUpdateTodo = (id, content, state) => {
-    const update_todo = {
+    const data = {
       id,
       content,
       state,
     };
-
-    dispatch(updateTodo(update_todo));
+    dispatch(updateTodoRequest(data));
   };
 
   return (
     <S.Wrapper>
-      {todoList.map((todo) => (
+      {todoList.map((item) => (
         <TodoCard
-          key={todo.id}
-          todo={todo}
+          key={item.id}
+          todo={item}
           onDeleteTodo={onDeleteTodo}
           onUpdateTodo={onUpdateTodo}
         />
