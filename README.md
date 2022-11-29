@@ -33,10 +33,11 @@
 - react-toastify 오픈소스 라이브러리를 활용하여 toast message를 띄웁니다.
 - cutomAPIerror를 통해 error를 바운더링 합니다.
 
-## 6. sagatodo (...ing)
+## 6. sagatodo (완)
 
 - msw와 mock-data를 활용하여 mockingApi를 만들고 redux의 middle ware인 redux-saga를 사용합니다.
 - immer를 사용하여 불변성을 지킵니다.
+- throttle, observer를 활용한 인피니트 스크롤링
 - immer, redux-saga
 
 ## 7. rtktodo (...ing)
@@ -50,6 +51,7 @@
 
 - 6을 통해 배포된 json-server를 활용합니다.
 - recoil과 react-qurey를 사용하여 todo-list를 제작합니다.
+- react qurey를 활용한 인피니트 스크롤링
 - storybook을 활용한 공용 컴포넌트 UI TEST를 사용합니다.
 
 ## 9. tddtodo
