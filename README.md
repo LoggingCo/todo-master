@@ -40,7 +40,7 @@
 - throttle, observer를 활용한 인피니트 스크롤링
 - immer, redux-saga
 
-## 7. rtktodo (...ing)
+## 7. rtktodo (완)
 
 - redux-toolkit를 활용 최신 redux 사용법을 익힙니다.
 - createAsyncThunk를 활용합니다.
