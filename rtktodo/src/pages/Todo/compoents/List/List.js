@@ -1,14 +1,38 @@
 import TodoCard from './Card/Card';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { deleteTodos, updateTodos } from 'reducer/todo';
 
-function TodoList() {
-  const todolist = useSelector((state) => state.todo.todos);
+function TodoList({ todoList }) {
+  const dispatch = useDispatch();
+
+  // deletetodo
+  const onDeleteTodo = (id) => {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    dispatch(deleteTodos(id));
+  };
+
+  // update todo
+  const onUpdateTodo = (id, title, content, state) => {
+    const data = {
+      id,
+      title,
+      content,
+      state,
+    };
+    console.log(data);
+    dispatch(updateTodos(data));
+  };
 
   return (
     <S.Wrapper>
-      {todolist.map((item) => (
-        <TodoCard key={item.id} todo={item} />
+      {todoList.map((item) => (
+        <TodoCard
+          key={item.id}
+          todo={item}
+          onDeleteTodo={onDeleteTodo}
+          onUpdateTodo={onUpdateTodo}
+        />
       ))}
     </S.Wrapper>
   );

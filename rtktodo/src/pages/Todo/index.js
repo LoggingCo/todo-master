@@ -5,10 +5,14 @@ import TodoFormModal from './compoents/Modal/Form/Form';
 import TodoList from './compoents/List/List';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodos, getTodos } from 'reducer/todo';
 
 function TodoPage() {
   const [isOpenFormModal, setIsOpenFormModal] = useState(false);
+  const todoList = useSelector((state) => state.todo.todos);
+  const dispatch = useDispatch();
 
   const onOpenFormModal = () => {
     setIsOpenFormModal(true);
@@ -18,14 +22,39 @@ function TodoPage() {
     setIsOpenFormModal(false);
   };
 
+  // gettodo
+  useEffect(() => {
+    dispatch(getTodos());
+  }, []);
+
+  // addtodo
+  const onAddTodo = async (title, content) => {
+    const data = await new Promise((reject, resolve) => {
+      if (!title || !content) {
+        return resolve();
+      }
+      const newTodo = {
+        id: Math.floor(Math.random() * 100000),
+        title,
+        content,
+        state: false,
+      };
+      reject(newTodo);
+    });
+    dispatch(addTodos(data));
+    onCloseFormModal();
+  };
+
   return (
     <>
-      {isOpenFormModal && <TodoFormModal onCloseFormModal={onCloseFormModal} />}
+      {isOpenFormModal && (
+        <TodoFormModal onCloseFormModal={onCloseFormModal} onAddTodo={onAddTodo} />
+      )}
       <S.Wrapper>
         <S.Container>
           <S.Title>List</S.Title>
           <S.Content>
-            <TodoList />
+            <TodoList todoList={todoList} />
           </S.Content>
           <S.ButtonBox>
             <Button variant="primary" size="full" onClick={onOpenFormModal}>

@@ -2,66 +2,46 @@ import styled from 'styled-components';
 import { flexAlignCenter, flexCenter } from 'styles/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faBan, faPen } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 import useInput from 'hooks/useInput';
-import { editState, removetodo, updatetodo } from 'reducer/todo';
-import { useDispatch } from 'react-redux';
 
-function TodoCard({ todo }) {
-  const [newTodo, onChangeNewTodo, setNewTodo] = useInput(todo.content);
-  const dispatch = useDispatch();
+function TodoCard({ todo, onDeleteTodo, onUpdateTodo }) {
+  const [edit, setEdit] = useState(false);
+  const [content, onChangeContent] = useInput(todo.content);
 
-  // delete
-  const onDeleteTodo = () => {
-    dispatch(removetodo({ id: todo.id }));
+  const onSetEdit = () => {
+    setEdit(true);
   };
 
-  // edit
-  const onEdittodo = () => {
-    dispatch(editState({ id: todo.id }));
-  };
-
-  // udpate todo
-  const onUpdateTodo = () => {
-    if (newTodo === '') {
-      alert('내용을 입력해주세요');
-      return;
+  const onUpdateTodoHandler = () => {
+    if (content === todo.content) {
+      alert('변경된 내용이 없습니다.');
+      return setEdit(false);
     }
-
-    if (newTodo === todo.content) {
-      alert('변경된 내용이 없습니다');
-      onEdittodo();
-      return;
-    }
-
-    dispatch(updatetodo({ id: todo.id, todo: newTodo, state: todo.state }));
-    onEdittodo();
+    onUpdateTodo(todo.id, todo.title, content, todo.state);
+    setEdit(false);
   };
 
-  // update state
-  const onUpdateState = () => {
-    dispatch(updatetodo({ id: todo.id, todo: todo.content, state: !todo.state }));
+  const onUpdateStateHandler = () => {
+    onUpdateTodo(todo.id, todo.title, todo.content, !todo.state);
   };
 
   return (
-    <S.Wrapper>
+    <S.Wrapper state={todo.state}>
       <S.Header>
-        <S.StateBox state={todo.state}>
-          <FontAwesomeIcon icon={faCheck} onClick={onUpdateState} />
+        <S.StateBox state={todo.state} onClick={onUpdateStateHandler}>
+          <FontAwesomeIcon icon={faCheck} />
         </S.StateBox>
         <S.Title state={todo.state}>
           {todo.title}
           <div>
-            <FontAwesomeIcon icon={faPen} onClick={todo.edit ? onUpdateTodo : onEdittodo} />
-            <FontAwesomeIcon icon={faBan} onClick={onDeleteTodo} />
+            <FontAwesomeIcon icon={faPen} onClick={edit ? onUpdateTodoHandler : onSetEdit} />
+            <FontAwesomeIcon icon={faBan} onClick={() => onDeleteTodo(todo.id)} />
           </div>
         </S.Title>
       </S.Header>
       <S.Content state={todo.state}>
-        {todo.edit ? (
-          <textarea value={newTodo} onChange={onChangeNewTodo}></textarea>
-        ) : (
-          todo.content
-        )}
+        {edit ? <textarea value={content} onChange={onChangeContent}></textarea> : todo.content}
       </S.Content>
     </S.Wrapper>
   );
@@ -74,6 +54,8 @@ const Wrapper = styled.li`
   border: 1px solid #999;
   margin: 16px 0;
   border-radius: 8px;
+  background-color: ${({ state, theme }) =>
+    state ? theme.palette.gray[100] : theme.palette.white};
 `;
 
 const Header = styled.div`

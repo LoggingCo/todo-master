@@ -12,6 +12,7 @@ const JwtConfing = {
 
 const JwtVerify = async (jwtPayload, done) => {
   try {
+    const id = jwtPayload.split(' ')[1];
     const user = await User.findOne({ where: { id: jwtPayload.id } });
     if (user) {
       return done(null, user);

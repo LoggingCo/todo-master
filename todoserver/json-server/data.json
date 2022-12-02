@@ -1,11 +1,15 @@
 {
-  "users": [],
-  "todo": [
+  "users": [
     {
-      "id": 1,
-      "title": "Todo 1",
-      "content": "todo",
-      "state": false
+      "email": "tes123t@test.com",
+      "password": "$2a$10$IxuxaIMmXm6lvi2QXnhlIuD7vhcus9/sg/S1x6h.yfLsE4wGwdwO.",
+      "id": 1
+    },
+    {
+      "email": "test@test.com",
+      "password": "$2a$10$iPbicWkCUFbrZwGbvz8oV.mHwSuGvtS6m.zooCT2a5s7IuI0QkfmS",
+      "id": 2
     }
-  ]
+  ],
+  "todo": []
 }

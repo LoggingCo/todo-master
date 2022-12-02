@@ -1,37 +1,15 @@
 import { flexAlignCenter, flexCenter, ModalBackground } from 'styles/common';
 import styled from 'styled-components';
-import useInput from 'hooks/useInput';
-import { useDispatch } from 'react-redux';
-import { addtodo } from 'reducer/todo';
 import { toast } from 'react-toastify';
+import useInput from 'hooks/useInput';
 
-function TodoFormModal({ onCloseFormModal }) {
-  const [todo, onChageTodo, setTodo] = useInput('');
-  const [title, onChangeTitle, setTitle] = useInput('');
-  const dispatch = useDispatch();
-
-  const onAddTodo = () =>
-    new Promise((resolve) =>
-      setTimeout(() => {
-        const data = {
-          id: Math.floor(Math.random() * 100000),
-          title,
-          content: todo,
-          state: false,
-          edit: false,
-        };
-        dispatch(addtodo(data));
-        resolve();
-      }, 1000),
-    ).then(() => {
-      onCloseFormModal();
-      setTodo('');
-      setTitle('');
-    });
+function TodoFormModal({ onCloseFormModal, onAddTodo }) {
+  const [title, onChnageTitle] = useInput('');
+  const [content, onChangeContent] = useInput('');
 
   const showToastMessage = (e) => {
     e.preventDefault();
-    toast.promise(onAddTodo, {
+    toast.promise(onAddTodo(title, content), {
       pending: 'TODO LOADING',
       success: 'TODO SUCCESS',
       error: 'TODO ERROR',
@@ -48,11 +26,11 @@ function TodoFormModal({ onCloseFormModal }) {
           </button>
         </S.Title>
         <S.Content>
-          <input placeholder="제목을 입력해주세요" value={title} onChange={onChangeTitle} />
+          <input placeholder="제목을 입력해주세요" value={title} onChange={onChnageTitle} />
           <textarea
             placeholder="할 일 내용을 입력해주세요"
-            value={todo}
-            onChange={onChageTodo}
+            value={content}
+            onChange={onChangeContent}
           ></textarea>
         </S.Content>
         <S.Button>ADD</S.Button>
