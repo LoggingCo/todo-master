@@ -1,11 +1,30 @@
 import TodoCard from './Card/Card';
 import styled from 'styled-components';
-import useUpdateTodoMutation from 'queries/todo/useUpdateTodoMutation';
-import useDeleteTodoMutation from 'queries/todo/useDeletetodoMutation';
+import TodoApi from 'apis/todoApi';
+import { useMutation } from '@tanstack/react-query';
 
-function TodoList({ todoList }) {
-  const updateTodo = useUpdateTodoMutation();
-  const deleteTodo = useDeleteTodoMutation();
+function TodoList({ todoList, setTodoList }) {
+  const updateTodo = useMutation(
+    (data) => {
+      const { title, content, state } = data;
+      return TodoApi.updateTodo(data.id, { title, content, state });
+    },
+    {
+      onSuccess: (res) => {
+        const { data } = res;
+        const newTodoList = [...todoList];
+        const index = newTodoList.findIndex((todo) => todo.id === data.id);
+        newTodoList[index] = data;
+        setTodoList(newTodoList);
+      },
+    },
+  );
+
+  const deleteTodo = useMutation((id) => TodoApi.deleteTodo(id), {
+    onSuccess: (res) => {
+      setTodoList((prev) => prev.filter((todo) => todo.id !== res.id));
+    },
+  });
 
   // deletetodo
   const onDeleteTodo = (id) => {
@@ -15,12 +34,13 @@ function TodoList({ todoList }) {
 
   // update todo
   const onUpdateTodo = (id, title, content, state) => {
-    updateTodo.mutate(id, { title, content, state });
+    const data = { id, title, content, state };
+    updateTodo.mutate(data);
   };
 
   return (
     <S.Wrapper>
-      {todoList.length > 0 &&
+      {todoList &&
         todoList.map((item) => (
           <TodoCard
             key={item.id}

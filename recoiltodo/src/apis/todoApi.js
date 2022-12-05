@@ -16,6 +16,7 @@ const TodoApi = {
   },
 
   updateTodo: (id, { title, content, state }) => {
+    console.log(id, title, content, state);
     return Axios.put(PATH + `/${id}`, { title, content, state });
   },
 };

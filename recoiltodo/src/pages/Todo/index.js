@@ -5,15 +5,27 @@ import TodoFormModal from './compoents/Modal/Form/Form';
 import TodoList from './compoents/List/List';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useGetTodoQuery from 'queries/todo/useGetTodoQurey';
-import useAddTodoMuation from 'queries/todo/useAddTodoMutation';
+import { useMutation } from '@tanstack/react-query';
+import TodoApi from '../../apis/todoApi';
 
 function TodoPage() {
-  const todoList = useGetTodoQuery();
-  const addTodo = useAddTodoMuation();
-
+  const todoListData = useGetTodoQuery({ params: { _sort: 'id', _order: 'desc' } });
+  const [todoList, setTodoList] = useState([]);
   const [isOpenFormModal, setIsOpenFormModal] = useState(false);
+
+  const addTodo = useMutation((todo) => TodoApi.addTodo(todo), {
+    onSuccess: (res) => {
+      setTodoList((prev) => [res.data, ...prev]);
+      setIsOpenFormModal(false);
+    },
+  });
+
+  useEffect(() => {
+    if (!todoListData.data) return;
+    setTodoList(todoListData.data.data);
+  }, [todoListData.data]);
 
   const onOpenFormModal = () => {
     setIsOpenFormModal(true);
@@ -50,7 +62,7 @@ function TodoPage() {
         <S.Container>
           <S.Title>List</S.Title>
           <S.Content>
-            <TodoList todoList={todoList} />
+            <TodoList todoList={todoList} setTodoList={setTodoList} />
           </S.Content>
           <S.ButtonBox>
             <Button variant="primary" size="full" onClick={onOpenFormModal}>
