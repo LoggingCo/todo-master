@@ -8,11 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import useGetTodoQuery from 'queries/todo/useGetTodoQurey';
 import { useMutation } from '@tanstack/react-query';
-import TodoApi from '../../apis/todoApi';
+import TodoApi from 'apis/todoApi';
+import { useSetRecoilState } from 'recoil';
+import { todoListAtom } from 'atoms/todo/atoms';
 
 function TodoPage() {
   const todoListData = useGetTodoQuery({ params: { _sort: 'id', _order: 'desc' } });
-  const [todoList, setTodoList] = useState([]);
+  const setTodoList = useSetRecoilState(todoListAtom);
   const [isOpenFormModal, setIsOpenFormModal] = useState(false);
 
   const addTodo = useMutation((todo) => TodoApi.addTodo(todo), {
@@ -62,7 +64,7 @@ function TodoPage() {
         <S.Container>
           <S.Title>List</S.Title>
           <S.Content>
-            <TodoList todoList={todoList} setTodoList={setTodoList} />
+            <TodoList />
           </S.Content>
           <S.ButtonBox>
             <Button variant="primary" size="full" onClick={onOpenFormModal}>

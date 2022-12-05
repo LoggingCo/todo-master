@@ -2,8 +2,12 @@ import TodoCard from './Card/Card';
 import styled from 'styled-components';
 import TodoApi from 'apis/todoApi';
 import { useMutation } from '@tanstack/react-query';
+import { useRecoilState } from 'recoil';
+import { todoListAtom } from 'atoms/todo/atoms';
 
-function TodoList({ todoList, setTodoList }) {
+function TodoList() {
+  const [todoList, setTodoList] = useRecoilState(todoListAtom);
+
   const updateTodo = useMutation(
     (data) => {
       const { title, content, state } = data;
