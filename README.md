@@ -47,20 +47,20 @@
 - json-server를 사용 이후 heroku와 netflify를 통해 배포합니다.
 - redux-toolkit
 
-## 8. recoiltodo
+## 8. recoiltodo (완)
 
 - 6을 통해 배포된 json-server를 활용합니다.
 - recoil과 react-qurey를 사용하여 todo-list를 제작합니다.
 - react qurey를 활용한 인피니트 스크롤링
 - storybook을 활용한 공용 컴포넌트 UI TEST를 사용합니다.
 
-## 9. tddtodo
+## 9. tddtodo (...ing)
 
 - 랜더링 테스트와 스냅샷 테스트와 같은 유닛 테스트를 작성합니다.
 - redux와 msw를 활용하여 단위 테스트를 작성 후 TDD 방식으로 todolist를 완성합니다.
 - cypress를 활용한 E2E 테스트를 진행합니다.
 
-## 10. typetodo
+## 10. typetodo (...ing)
 
 - typescript를 활용하여 todolist를 완성합니다.
 - DI(의존성부여), 상속, 추상화 같은 oop 개념을 습득합니다.
