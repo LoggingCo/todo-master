@@ -36,6 +36,7 @@
 ## 6. sagatodo (완)
 
 - msw와 mock-data를 활용하여 mockingApi를 만들고 redux의 middle ware인 redux-saga를 사용합니다.
+- mock_data의 중요성 강조
 - immer를 사용하여 불변성을 지킵니다.
 - throttle, observer를 활용한 인피니트 스크롤링
 - immer, redux-saga
