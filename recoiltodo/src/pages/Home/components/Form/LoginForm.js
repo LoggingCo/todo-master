@@ -8,6 +8,7 @@ import useHomeRegExp from 'pages/Home/hooks/useHomeRegExp';
 import AuthApi from 'apis/authApi';
 import { ErrorHandle } from 'apis/@core';
 import TokenRepository from 'repository/TokenRepository';
+import useLoginMutaion from 'queries/auth/useLoginMutation';
 
 function LoginForm() {
   // util
@@ -21,25 +22,12 @@ function LoginForm() {
   });
 
   const disabled = useHomeRegExp(email, password);
+  const userLoginMutaion = useLoginMutaion({ email, password });
 
   // login submit
   const onLoginSubmit = (e) => {
     e.preventDefault();
-
-    // promise returen
-    AuthApi.login({ email, password })
-      .then((res) => {
-        if (res.status === 200) {
-          TokenRepository.setToken(res.data.accessToken);
-          if (TokenRepository.getToken()) {
-            navigate('/todo');
-          }
-        }
-      })
-      .catch((error) => {
-        const err = ErrorHandle(error);
-        setError(err);
-      });
+    userLoginMutaion.mutate({ email, password });
   };
 
   // error reset

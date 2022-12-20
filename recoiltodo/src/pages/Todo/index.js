@@ -5,36 +5,20 @@ import TodoFormModal from './compoents/Modal/Form/Form';
 import TodoList from './compoents/List/List';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react';
-import useGetTodoQuery from 'queries/todo/useGetTodoQurey';
-import { useMutation } from '@tanstack/react-query';
-import TodoApi from 'apis/todoApi';
-import { useSetRecoilState } from 'recoil';
-import { todoListAtom } from 'atoms/todo/atoms';
+import { useRecoilState } from 'recoil';
+import { addModalAtom } from 'atoms/todo/atoms';
+import useAddTodoMutate from 'queries/todo/useAddTodoMutate';
 
 function TodoPage() {
-  const todoListData = useGetTodoQuery({ params: { _sort: 'id', _order: 'desc' } });
-  const setTodoList = useSetRecoilState(todoListAtom);
-  const [isOpenFormModal, setIsOpenFormModal] = useState(false);
-
-  const addTodo = useMutation((todo) => TodoApi.addTodo(todo), {
-    onSuccess: (res) => {
-      setTodoList((prev) => [res.data, ...prev]);
-      setIsOpenFormModal(false);
-    },
-  });
-
-  useEffect(() => {
-    if (!todoListData.data) return;
-    setTodoList(todoListData.data.data);
-  }, [todoListData.data]);
+  const [isOpenAddModal, setIsOpenAddModal] = useRecoilState(addModalAtom);
+  const addTodo = useAddTodoMutate(setIsOpenAddModal);
 
   const onOpenFormModal = () => {
-    setIsOpenFormModal(true);
+    setIsOpenAddModal(true);
   };
 
   const onCloseFormModal = () => {
-    setIsOpenFormModal(false);
+    setIsOpenAddModal(false);
   };
 
   // addtodo
@@ -57,7 +41,7 @@ function TodoPage() {
 
   return (
     <>
-      {isOpenFormModal && (
+      {isOpenAddModal && (
         <TodoFormModal onCloseFormModal={onCloseFormModal} onAddTodo={onAddTodo} />
       )}
       <S.Wrapper>

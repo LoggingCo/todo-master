@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import TodoApi from 'apis/todoApi';
-import { GET_TODO_QUERY } from 'consts/qurieskey';
+import { queryKey } from 'consts/qurieskey';
 
 const useGetTodoQuery = (params) => {
-  const { data, error, loading } = useQuery(
-    [GET_TODO_QUERY, params],
+  const { data, error, status } = useQuery(
+    [queryKey.GET_TODO_LIST, params],
     () => TodoApi.getTodo(params),
     {
       refetchOnWindowFocus: false,
@@ -15,6 +15,6 @@ const useGetTodoQuery = (params) => {
     },
   );
 
-  return { data, error, loading };
+  return { data, error, status };
 };
 export default useGetTodoQuery;

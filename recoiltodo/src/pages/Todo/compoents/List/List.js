@@ -1,34 +1,13 @@
 import TodoCard from './Card/Card';
 import styled from 'styled-components';
-import TodoApi from 'apis/todoApi';
-import { useMutation } from '@tanstack/react-query';
-import { useRecoilState } from 'recoil';
-import { todoListAtom } from 'atoms/todo/atoms';
+import useDeleteTodoMutate from 'queries/todo/useDeleteTodoMutate';
+import useUpdateTodoMutate from 'queries/todo/useUpdateTodoMutate';
+import useGetTodoQuery from 'queries/todo/useGetTodoQurey';
 
 function TodoList() {
-  const [todoList, setTodoList] = useRecoilState(todoListAtom);
-
-  const updateTodo = useMutation(
-    (data) => {
-      const { title, content, state } = data;
-      return TodoApi.updateTodo(data.id, { title, content, state });
-    },
-    {
-      onSuccess: (res) => {
-        const { data } = res;
-        const newTodoList = [...todoList];
-        const index = newTodoList.findIndex((todo) => todo.id === data.id);
-        newTodoList[index] = data;
-        setTodoList(newTodoList);
-      },
-    },
-  );
-
-  const deleteTodo = useMutation((id) => TodoApi.deleteTodo(id), {
-    onSuccess: (res) => {
-      setTodoList((prev) => prev.filter((todo) => todo.id !== res.id));
-    },
-  });
+  const { data: todoList, status } = useGetTodoQuery({ params: { _sort: 'id', _order: 'desc' } });
+  const deleteTodo = useDeleteTodoMutate();
+  const updateTodo = useUpdateTodoMutate();
 
   // deletetodo
   const onDeleteTodo = (id) => {
@@ -42,10 +21,12 @@ function TodoList() {
     updateTodo.mutate(data);
   };
 
+  if (status === 'loading') return <div>로딩중...</div>;
+
   return (
     <S.Wrapper>
-      {todoList &&
-        todoList.map((item) => (
+      {todoList.data &&
+        todoList.data.map((item) => (
           <TodoCard
             key={item.id}
             todo={item}

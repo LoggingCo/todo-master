@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const todoListAtom = atom({
-  key: 'todoList',
-  default: [],
+export const addModalAtom = atom({
+  key: 'addModalAtom',
+  default: false,
 });

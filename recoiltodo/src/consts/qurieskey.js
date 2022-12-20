@@ -1,1 +1,3 @@
-export const GET_TODO_QUERY = 'GET_TODO_QUERY';
+export const queryKey = {
+  GET_TODO_LIST: 'GET_TODO_LIST',
+};

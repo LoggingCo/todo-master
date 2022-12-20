@@ -3,6 +3,7 @@ import AuthApi from 'apis/authApi';
 import Button from 'components/Button/Button';
 import useInputs from 'hooks/useInputs';
 import useHomeRegExp from 'pages/Home/hooks/useHomeRegExp';
+import useSignUpMutation from 'queries/auth/useSignupMutation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { flexCenter } from 'styles/common';
@@ -18,6 +19,7 @@ function SignUpForm({ setForm }) {
 
   // regexp test
   const disabled = useHomeRegExp(email, password);
+  const userLoginMutation = useSignUpMutation(setForm);
 
   // onSignUpSumit
   const onSignUpSumit = async (e) => {
@@ -25,17 +27,7 @@ function SignUpForm({ setForm }) {
     if (password !== passwordConfirm) {
       return setConfirm(false);
     }
-
-    // async await
-    try {
-      const res = await AuthApi.signup({ email, password });
-      if (!alert('회원가입이 완료되었습니다.')) {
-        setForm('login');
-      }
-    } catch (error) {
-      const err = ErrorHandle(error);
-      alert(err);
-    }
+    userLoginMutation.mutate({ email, password });
   };
 
   // confirm check
